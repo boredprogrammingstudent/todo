@@ -16,7 +16,6 @@
 ## how to use :
 - clone repo
 - compile
-- create todo.txt in the same folder as executable
 - for ease of use
   - add yourself an alias in your .bashrc ; something like this : alias todo="~/todo/executable"
 
