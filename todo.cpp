@@ -40,6 +40,10 @@ public:
     {
         return &file[index];
     }
+    void removeIf(std::function<bool(std::vector<std::string>)> f)
+    {
+        file.erase(std::remove_if(file.begin(), file.end(), f), file.end());
+    }
     void add(const std::string &line)
     {
         file.push_back(vectorize(line));
@@ -149,6 +153,13 @@ public:
     {
         fh.print();
     }
+    void removeCrossed()
+    {
+        fh.removeIf([](std::vector<std::string> s) {
+            return std::find(s.begin(), s.end(), "-x") != s.end();
+        });
+        fh.save();
+    }
 };
 bool isCmd(char *cmd, const std::vector<std::string> &nameCalls)
 {
@@ -205,10 +216,15 @@ int main(int argc, char *argv[])
         todo.add(temp);
         todo.show();
     }
+    else if (isCmd(argv[1], calls{"rx"}))
+    {
+        todo.removeCrossed();
+        todo.show();
+    }
     else
     {
         /*
-            this is the default for when you just do 
+            this is the default for when you just do
                 $ todo eat
             it acts as if it was
                 $ todo add eat
